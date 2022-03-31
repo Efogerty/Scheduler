@@ -7,6 +7,7 @@
 #include <sys/types.h>
 #include <pthread.h>
 #include <wait.h>
+#include <stdbool.h>
 
 typedef struct task{
   int task_id,    /* alphabetic tid can be obtained as 'A'+(task_counter++) */
@@ -18,6 +19,28 @@ typedef struct task{
     wait_time;
   struct task *next;
 }task_t;
+
+void FIFO(task_t* temp, FILE* out){
+  int counter = 0;
+  bool allFinished = false;
+  fprintf(out, "FIFO scheduling results\n\ntime\tcpu\tready\tqueue\t(tid/rst)\n----------------------------\n");
+  while(allFinished == false){
+    fprintf(out, "%d\t", counter);
+    while(1/*look through entire task list*/){
+
+    }
+    counter++;
+  }
+}
+
+void SJF(task_t* temp, FILE* out){
+  fprintf(out, "SJF(preemptive) scheduling results\n\ntime\tcpu\tready\tqueue\t(tid/rst)\n----------------------------\n");
+}
+
+void RR(task_t* temp, FILE* out){
+  fprintf(out, "RR scheduling results (time slice is 1)\n\ntime\tcpu\tready\tqueue\t(tid/rst)\n----------------------------\n");
+}
+
 
 int main(int argc, char *argv[]){
   //check that args are correct
@@ -50,6 +73,22 @@ int main(int argc, char *argv[]){
     fscanf(infile, "%d %d", &((*new_task).arrival_time), &((*new_task).service_time));
     new_task->next = NULL;
   }
+  //make the CL function uppercase to identify all kinds of capitalizations
+  for(int i = 0; i <strlen(function);i++){
+    function[i] = toupper(function[i]);
+  }
+
+if(!(strcmp(function,"-FIFO"))){//function.toupper() == -FIFO){
+  FIFO(head_task, outfile);
+}else if(!(strcmp(function,"-SJF"))){
+  SJF(head_task, outfile);
+}else if(!(strcmp(function,"-RR"))){
+  RR(head_task, outfile);
+}else{
+  printf("Incorrect scheduling policy name\n");
+  return 0;
+}
+}
 
   /*
   //find the number of tasks in the file first and allocate
@@ -63,4 +102,4 @@ int main(int argc, char *argv[]){
     fscanf(infile, "%d", &taskList->service_time);
     //printf("%d %d\n",taskList->arrival_time,taskList->service_time);
   }*/
-}
+
