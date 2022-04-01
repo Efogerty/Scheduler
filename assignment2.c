@@ -143,7 +143,6 @@ int main(int argc, char *argv[]){
   for(int i = 0; i <strlen(function);i++){
     function[i] = toupper(function[i]);
   }
-
   if(!(strcmp(function,"-FIFO"))){//function.toupper() == -FIFO){
     FIFO(head_task, outfile);
   }else if(!(strcmp(function,"-SJF"))){
